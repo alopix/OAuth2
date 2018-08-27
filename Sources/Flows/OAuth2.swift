@@ -337,6 +337,7 @@ open class OAuth2: OAuth2Base {
 		guard let refreshToken = clientConfig.refreshToken, !refreshToken.isEmpty else {
 			throw OAuth2Error.noRefreshToken
 		}
+        let scope = clientConfig.scope
 		
 		let req = OAuth2AuthRequest(url: (clientConfig.tokenURL ?? clientConfig.authorizeURL))
 		req.params["grant_type"] = "refresh_token"
@@ -344,6 +345,9 @@ open class OAuth2: OAuth2Base {
 		if let clientId = clientId {
 			req.params["client_id"] = clientId
 		}
+        if let scope = scope {
+            req.params["scope"] = scope
+        }
 		req.add(params: params)
 		
 		return req
